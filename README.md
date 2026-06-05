@@ -50,8 +50,8 @@ an encrypted model pipeline with client-side decryption, and a fully responsive 
 
 ~~~bash
 # 1. Clone the repo
-git clone https://github.com/code2ahm/portfolio.git
-cd portfolio
+git clone https://github.com/code2ahm/myfolio.git
+cd myfolio
 
 # 2. Install dependencies
 npm install
