@@ -17,6 +17,52 @@
   color: var(--accentColor);
 }
 
+.work-all-projects {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: -34px 0 34px;
+  color: #eae5ec;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  padding-bottom: 5px;
+}
+
+.work-all-projects::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--accentColor);
+  transform: scaleX(0.25);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.work-all-projects:hover {
+  color: var(--accentColor);
+}
+
+.work-all-projects:hover::after {
+  transform: scaleX(1);
+}
+
+.work-all-projects svg {
+  width: 15px;
+  height: 15px;
+  transform: translate(-2px, 2px);
+  transition: transform 0.25s ease;
+}
+
+.work-all-projects:hover svg {
+  transform: translate(2px, -2px);
+}
+
 .work-container {
   margin: auto;
 }

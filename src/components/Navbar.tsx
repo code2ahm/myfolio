@@ -28,10 +28,12 @@ const Navbar = () => {
       let element = elem as HTMLAnchorElement;
       const onClick = (e: Event) => {
         if (window.innerWidth > 1024) {
-          e.preventDefault();
           let elem = e.currentTarget as HTMLAnchorElement;
           let section = elem.getAttribute("data-href");
-          smoother.scrollTo(section, true, "top top");
+          if (section && document.querySelector(section)) {
+            e.preventDefault();
+            smoother.scrollTo(section, true, "top top");
+          }
         }
       };
       element.addEventListener("click", onClick);
@@ -63,17 +65,17 @@ const Navbar = () => {
         </a>
         <ul>
           <li>
-            <a data-href="#about" href="#about">
+            <a data-href="#about" href="/#about">
               <HoverLinks text="ABOUT" />
             </a>
           </li>
           <li>
-            <a data-href="#work" href="#work">
+            <a data-href="#work" href="/#work">
               <HoverLinks text="WORK" />
             </a>
           </li>
           <li>
-            <a data-href="#contact" href="#contact">
+            <a data-href="#contact" href="/#contact">
               <HoverLinks text="CONTACT" />
             </a>
           </li>

@@ -87,6 +87,26 @@ const Work = () => {
         <h2>
           My <span>Work</span>
         </h2>
+        <a
+          href="/projects"
+          className="work-all-projects"
+          data-cursor="disable"
+        >
+          <span>View all projects</span>
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7 17L17 7M17 7H7M17 7V17"
+              stroke="currentColor"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </a>
 
         <div className="carousel-wrapper">
           <div className="carousel-arrows-desktop">{arrowButtons}</div>
