@@ -1,13 +1,12 @@
 .projects-page {
   min-height: 100vh;
-  background:
-    radial-gradient(
-      circle at 85% 18%,
-      rgba(94, 234, 212, 0.12),
-      transparent 28%
-    ),
-    var(--backgroundColor);
+  background: var(--backgroundColor);
   color: #eae5ec;
+}
+
+.projects-page .landing-circle1,
+.projects-page .landing-circle2 {
+  display: none;
 }
 
 .projects-main {
@@ -30,14 +29,7 @@
 }
 
 .projects-hero::before {
-  content: "";
-  position: absolute;
-  right: 0;
-  bottom: -1px;
-  width: min(520px, 72vw);
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accentColor));
-  animation: projectsScanLine 3.6s ease-in-out infinite;
+  display: none;
 }
 
 .projects-back,
@@ -119,18 +111,18 @@
 
 .projects-reveal {
   opacity: 0;
-  transform: translateY(42px) rotateX(-7deg);
-  filter: blur(10px);
+  transform: translateY(18px);
+  filter: blur(3px);
   transition:
-    opacity 0.8s ease,
-    transform 0.8s cubic-bezier(0.2, 0.85, 0.2, 1),
-    filter 0.8s ease;
-  transition-delay: calc(var(--reveal-index, 0) * 55ms);
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.9s ease;
+  transition-delay: calc(var(--reveal-index, 0) * 38ms);
 }
 
 .projects-reveal.is-visible {
   opacity: 1;
-  transform: translateY(0) rotateX(0);
+  transform: translateY(0);
   filter: blur(0);
 }
 
@@ -165,7 +157,7 @@
 .projects-card:hover {
   border-color: rgba(94, 234, 212, 0.42);
   background: rgba(94, 234, 212, 0.045);
-  transform: translateY(-6px);
+  transform: translateY(-4px);
 }
 
 .projects-card::before,
@@ -193,7 +185,7 @@
 }
 
 .projects-card-media {
-  height: 210px;
+  height: 250px;
   position: relative;
   overflow: hidden;
   background:
@@ -236,7 +228,7 @@
 }
 
 .projects-card:hover .projects-card-media img {
-  transform: scale(1.045);
+  transform: scale(1.025);
 }
 
 .projects-card-media::after {
@@ -619,17 +611,83 @@
   border-color: rgba(255, 255, 255, 0.18);
 }
 
-@keyframes projectsScanLine {
-  0%,
-  100% {
-    opacity: 0.2;
-    transform: translateX(-8%);
-  }
+.projects-footer {
+  margin-top: 54px;
+  padding: clamp(34px, 6vw, 64px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background:
+    linear-gradient(135deg, rgba(94, 234, 212, 0.08), transparent 42%),
+    rgba(255, 255, 255, 0.03);
+  position: relative;
+  overflow: hidden;
+}
 
-  50% {
-    opacity: 1;
-    transform: translateX(8%);
-  }
+.projects-footer::before,
+.projects-footer::after {
+  content: "";
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-color: var(--accentColor);
+  border-style: solid;
+  opacity: 0.8;
+}
+
+.projects-footer::before {
+  top: -1px;
+  left: -1px;
+  border-width: 2px 0 0 2px;
+}
+
+.projects-footer::after {
+  right: -1px;
+  bottom: -1px;
+  border-width: 0 2px 2px 0;
+}
+
+.projects-footer p {
+  margin: 0 0 12px;
+  color: var(--accentColor);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+
+.projects-footer h2 {
+  max-width: 720px;
+  margin: 0;
+  font-size: clamp(34px, 6vw, 78px);
+  line-height: 0.95;
+  font-weight: 600;
+}
+
+.projects-footer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.projects-footer-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  color: #050810;
+  background: var(--accentColor);
+  border: 1px solid var(--accentColor);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.projects-footer-actions a + a {
+  color: #eae5ec;
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 @keyframes projectsModalFade {
@@ -694,7 +752,7 @@
   }
 
   .projects-card-media {
-    height: 180px;
+    height: 210px;
   }
 
   .projects-card-body {
@@ -718,5 +776,14 @@
   .projects-modal-columns {
     grid-template-columns: 1fr;
     gap: 0;
+  }
+
+  .projects-footer {
+    margin-top: 36px;
+    padding: 28px 20px;
+  }
+
+  .projects-footer-actions {
+    flex-direction: column;
   }
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { FaGithub } from "react-icons/fa";
 import { MdClose, MdOpenInNew, MdReadMore } from "react-icons/md";
 import Cursor from "./Cursor";
@@ -155,6 +155,12 @@ const ProjectsPage = () => {
     null,
   );
 
+  const goBackToWork = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    sessionStorage.setItem("scrollToWorkAfterLoad", "true");
+    window.location.assign("/#work");
+  };
+
   useEffect(() => {
     const revealItems = document.querySelectorAll(".projects-reveal");
     const observer = new IntersectionObserver(
@@ -166,7 +172,7 @@ const ProjectsPage = () => {
           }
         });
       },
-      { threshold: 0.18, rootMargin: "0px 0px -8% 0px" },
+      { threshold: 0.08, rootMargin: "0px 0px -4% 0px" },
     );
 
     revealItems.forEach((item, index) => {
@@ -209,6 +215,7 @@ const ProjectsPage = () => {
               <a
                 href="/#work"
                 className="projects-back projects-reveal"
+                onClick={goBackToWork}
                 data-cursor="disable"
               >
                 Back to work
@@ -288,6 +295,23 @@ const ProjectsPage = () => {
                   </div>
                 </article>
               ))}
+            </section>
+
+            <section className="projects-footer projects-reveal">
+              <p>That is the working shelf for now.</p>
+              <h2>More builds are always loading in.</h2>
+              <div className="projects-footer-actions">
+                <a
+                  href="/#work"
+                  onClick={goBackToWork}
+                  data-cursor="disable"
+                >
+                  Back to work
+                </a>
+                <a href="/#contact" data-cursor="disable">
+                  Start something
+                </a>
+              </div>
             </section>
           </main>
         </div>

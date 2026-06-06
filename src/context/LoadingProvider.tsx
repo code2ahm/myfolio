@@ -48,6 +48,29 @@ export const LoadingProvider = ({ children }: PropsWithChildren) => {
     if (!isLoading) {
       import("../components/utils/initialFX").then((module) => {
         module.initialFX?.();
+
+        const targetHash =
+          sessionStorage.getItem("scrollToWorkAfterLoad") === "true"
+            ? "#work"
+            : window.location.hash;
+
+        if (!targetHash) return;
+
+        sessionStorage.removeItem("scrollToWorkAfterLoad");
+
+        window.setTimeout(() => {
+          const target = document.querySelector(targetHash);
+          if (!target) return;
+
+          import("../components/Navbar").then(({ smoother }) => {
+            if (smoother) {
+              smoother.scrollTo(targetHash, true, "top top");
+              return;
+            }
+
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+        }, 350);
       });
     }
   }, [isLoading]);
