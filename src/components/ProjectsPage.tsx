@@ -1,6 +1,11 @@
-import { useEffect, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import { FaGithub } from "react-icons/fa";
-import { MdClose, MdOpenInNew, MdReadMore } from "react-icons/md";
+import {
+  MdClose,
+  MdKeyboardArrowDown,
+  MdOpenInNew,
+  MdReadMore,
+} from "react-icons/md";
 import Cursor from "./Cursor";
 import Navbar from "./Navbar";
 import SocialIcons from "./SocialIcons";
@@ -34,6 +39,47 @@ const projects = [
       "Vite/React app split into focused visual sections",
       "Three.js character layer mounted separately from content",
       "CSS-led component styling with shared accent tokens",
+    ],
+  },
+  {
+    name: "CrawlScope",
+    image: "/images/crawlscope.png",
+    live: "https://crawlscope.vercel.app",
+    source: "https://github.com/code2ahm/crawlscope",
+    description:
+      "Free, instant website auditing tool — SEO, performance, accessibility and Core Web Vitals in under 30 seconds. No signup required.",
+    points: [
+      "50+ checks across SEO, performance, accessibility and technical health",
+      "Real Lighthouse scores with Core Web Vitals (LCP, CLS, INP, TTFB)",
+      "Export reports to Markdown, HTML, PDF and JSON",
+    ],
+    tags: ["Next.js", "TypeScript", "Lighthouse", "Puppeteer", "Tailwind"],
+    role: "Full-stack engineering, scan engine, UI design, deployment",
+    stack: [
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Lighthouse",
+      "Puppeteer",
+      "Cheerio",
+      "Framer Motion",
+    ],
+    details:
+      "CrawlScope runs a real Lighthouse audit inside headless Chromium via Puppeteer, combines it with deep HTML analysis via Cheerio, and surfaces findings across 5 categories with severity-ranked priority fixes. Zero auth, zero database, zero tracking — just scan and fix.",
+    highlights: [
+      "Real headless Chromium scan with desktop and mobile screenshots",
+      "50+ prioritised checks with why-it-matters and how-to-fix guidance",
+      "Core Web Vitals: LCP, CLS, INP, TTFB, FCP with threshold indicators",
+      "One-click export to Markdown, HTML, PDF and raw JSON",
+      "Full API endpoint — POST /api/scan returns structured AuditReport",
+    ],
+    architecture: [
+      "Next.js App Router with a single POST /api/scan route handler",
+      "Puppeteer launches headless Chromium per request, no persistence",
+      "Lighthouse runs on the open Chrome port for accurate scoring",
+      "Cheerio parses raw HTML in parallel for SEO and content checks",
+      "Results assembled into a typed AuditReport and streamed to client",
     ],
   },
   {
@@ -151,9 +197,11 @@ const projects = [
 ];
 
 const ProjectsPage = () => {
-  const [activeProject, setActiveProject] = useState<(typeof projects)[number] | null>(
-    null,
-  );
+  const [activeProject, setActiveProject] = useState<
+    (typeof projects)[number] | null
+  >(null);
+  const [hintVisible, setHintVisible] = useState(false);
+  const modalContentRef = useRef<HTMLDivElement>(null);
 
   const goBackToWork = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -184,12 +232,22 @@ const ProjectsPage = () => {
   }, []);
 
   useEffect(() => {
-    document.body.classList.toggle("projects-modal-open", Boolean(activeProject));
+    document.body.classList.toggle(
+      "projects-modal-open",
+      Boolean(activeProject),
+    );
+
+    setHintVisible(false);
+    if (modalContentRef.current) {
+      modalContentRef.current.scrollTop = 0;
+      setTimeout(() => {
+        const el = modalContentRef.current;
+        if (el) setHintVisible(el.scrollHeight > el.clientHeight + 10);
+      }, 80);
+    }
 
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setActiveProject(null);
-      }
+      if (event.key === "Escape") setActiveProject(null);
     };
 
     window.addEventListener("keydown", closeOnEscape);
@@ -199,9 +257,14 @@ const ProjectsPage = () => {
     };
   }, [activeProject]);
 
-  const closeDetails = () => {
-    setActiveProject(null);
+  const handleModalScroll = () => {
+    const el = modalContentRef.current;
+    if (!el) return;
+    const nearBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 40;
+    if (nearBottom) setHintVisible(false);
   };
+
+  const closeDetails = () => setActiveProject(null);
 
   return (
     <div className="projects-page">
@@ -301,11 +364,7 @@ const ProjectsPage = () => {
               <p>That is the working shelf for now.</p>
               <h2>More builds are always loading in.</h2>
               <div className="projects-footer-actions">
-                <a
-                  href="/#work"
-                  onClick={goBackToWork}
-                  data-cursor="disable"
-                >
+                <a href="/#work" onClick={goBackToWork} data-cursor="disable">
                   Back to work
                 </a>
                 <a href="/#contact" data-cursor="disable">
@@ -316,6 +375,7 @@ const ProjectsPage = () => {
           </main>
         </div>
       </div>
+
       {activeProject && (
         <div
           className="projects-modal"
@@ -339,13 +399,19 @@ const ProjectsPage = () => {
             >
               <MdClose />
             </button>
+
             <div className="projects-modal-media">
               <img
                 src={activeProject.image}
                 alt={`${activeProject.name} expanded preview`}
               />
             </div>
-            <div className="projects-modal-content">
+
+            <div
+              className="projects-modal-content"
+              ref={modalContentRef}
+              onScroll={handleModalScroll}
+            >
               <p className="projects-modal-kicker">{activeProject.role}</p>
               <h2 id="projects-modal-title">{activeProject.name}</h2>
               <p className="projects-modal-desc">{activeProject.details}</p>
@@ -397,6 +463,12 @@ const ProjectsPage = () => {
                   <FaGithub />
                   View source
                 </a>
+              </div>
+
+              <div
+                className={`projects-modal-scroll-hint${!hintVisible ? " is-hidden" : ""}`}
+              >
+                <MdKeyboardArrowDown />
               </div>
             </div>
           </article>
