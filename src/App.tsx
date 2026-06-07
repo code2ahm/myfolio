@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import "./App.css";
+import { Analytics } from "@vercel/analytics/react";
 
 const CharacterModel = lazy(() => import("./components/Character"));
 const MainContainer = lazy(() => import("./components/MainContainer"));
@@ -22,9 +23,12 @@ const App = () => {
 
   if (pathname === "/projects") {
     return (
-      <Suspense>
-        <ProjectsPage />
-      </Suspense>
+      <>
+        <Suspense>
+          <ProjectsPage />
+        </Suspense>
+        <Analytics />
+      </>
     );
   }
 
@@ -39,6 +43,7 @@ const App = () => {
           </MainContainer>
         </Suspense>
       </LoadingProvider>
+      <Analytics />
     </>
   );
 };
