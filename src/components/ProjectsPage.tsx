@@ -16,7 +16,7 @@ const projects = [
     name: "Atlas Coup",
     image: "/images/atlscoup.png",
     live: "https://atlscoup.web.app",
-    source: "https://github.com/code2ahm/atlcoup",
+    source: "https://github.com/code2ahm/atlascoup",
     description:
       "A self-hosted productivity system - habits, tasks, goals, journal, and a Pomodoro timer all sharing one Firebase-backed dashboard. No subscriptions, no bloat, just your data.",
 
