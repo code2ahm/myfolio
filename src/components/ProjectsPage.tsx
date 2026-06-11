@@ -13,6 +13,47 @@ import "./styles/ProjectsPage.css";
 
 const projects = [
   {
+    name: "Atlas Coup",
+    image: "/images/atlscoup.png",
+    live: "https://atlscoup.web.app",
+    source: "https://github.com/code2ahm/atlcoup",
+    description:
+      "A self-hosted productivity system - habits, tasks, goals, journal, and a Pomodoro timer all sharing one Firebase-backed dashboard. No subscriptions, no bloat, just your data.",
+
+    points: [
+      "Five tools in one: habit tracker, task board, goal planner, daily journal, Pomodoro",
+      "Unified analytics view - streaks, completions, and progress at a glance",
+      "Firebase Auth + Firestore for real-time sync across sessions",
+      "Dark-first UI with Framer Motion transitions and Quicksand typeface",
+    ],
+    tags: [
+      "Firebase",
+      "React",
+      "JavaScript",
+      "Tailwind CSS",
+      "Framer Motion",
+      "Vite",
+    ],
+    role: "Frontend, Firebase integration, product flow",
+    stack: ["React", "Firebase", "JavaScript", "Firestore", "CSS"],
+    details:
+      "Atlas Coup started as a personal frustration productivity apps either do too much with a paywall or too little with no data ownership. This is the version I actually wanted: a single sign-in, five tools that talk to each other, your data in Firestore, nothing else. The habit tracker feeds into the analytics view, the task board and goals share a priority model, the journal is a plain daily log, and the Pomodoro keeps it all moving. No subscriptions, no third-party telemetry.",
+    highlights: [
+      "Zustand stores - one per feature, shared across six modules",
+      "Custom Health Score algorithm - streaks, consistency, perfect days, trend",
+      "Firestore real-time subscriptions with monthly habit rollover",
+      "PWA - iOS Add to Home Screen + Chrome beforeinstallprompt",
+      "Firebase Auth - Google OAuth, email/password, account linking",
+    ],
+
+    architecture: [
+      "React + Vite + React Router v6, lazy-loaded protected routes",
+      "Zustand per feature - habits, tasks, goals, journal, analytics, auth",
+      "Firestore scoped by uid + month ID, analytics computed client-side",
+      "Framer Motion transitions, Tailwind + tailwind-merge + clsx",
+    ],
+  },
+  {
     name: "My Portfolio",
     image: "/images/foliopre.gif",
     live: "https://devahm.xyz",
@@ -47,7 +88,7 @@ const projects = [
     live: "https://crawlscope.vercel.app",
     source: "https://github.com/code2ahm/crawlscope",
     description:
-      "Free, instant website auditing tool — SEO, performance, accessibility and Core Web Vitals in under 30 seconds. No signup required.",
+      "Free, instant website auditing tool SEO, performance, accessibility and Core Web Vitals in under 30 seconds. No signup required.",
     points: [
       "50+ checks across SEO, performance, accessibility and technical health",
       "Real Lighthouse scores with Core Web Vitals (LCP, CLS, INP, TTFB)",
@@ -66,13 +107,13 @@ const projects = [
       "Framer Motion",
     ],
     details:
-      "CrawlScope runs a real Lighthouse audit inside headless Chromium via Puppeteer, combines it with deep HTML analysis via Cheerio, and surfaces findings across 5 categories with severity-ranked priority fixes. Zero auth, zero database, zero tracking — just scan and fix.",
+      "CrawlScope runs a real Lighthouse audit inside headless Chromium via Puppeteer, combines it with deep HTML analysis via Cheerio, and surfaces findings across 5 categories with severity-ranked priority fixes. Zero auth, zero database, zero tracking just scan and fix.",
     highlights: [
       "Real headless Chromium scan with desktop and mobile screenshots",
       "50+ prioritised checks with why-it-matters and how-to-fix guidance",
       "Core Web Vitals: LCP, CLS, INP, TTFB, FCP with threshold indicators",
       "One-click export to Markdown, HTML, PDF and raw JSON",
-      "Full API endpoint — POST /api/scan returns structured AuditReport",
+      "Full API endpoint POST /api/scan returns structured AuditReport",
     ],
     architecture: [
       "Next.js App Router with a single POST /api/scan route handler",
@@ -80,34 +121,6 @@ const projects = [
       "Lighthouse runs on the open Chrome port for accurate scoring",
       "Cheerio parses raw HTML in parallel for SEO and content checks",
       "Results assembled into a typed AuditReport and streamed to client",
-    ],
-  },
-  {
-    name: "Atlas Coup",
-    image: "/images/atlcoup.png",
-    live: "https://atlcoup.web.app",
-    source: "https://github.com/code2ahm/atlcoup",
-    description:
-      "Real-time web platform for tracking daily habits and long-term goals with clean UX and reliable infra.",
-    points: [
-      "Real-time analytics and data sync",
-      "Clean, minimal frontend interface",
-      "Low-latency backend responses",
-    ],
-    tags: ["Firebase", "React", "JavaScript"],
-    role: "Frontend, Firebase integration, product flow",
-    stack: ["React", "Firebase", "JavaScript", "Firestore", "CSS"],
-    details:
-      "A goal and habit-tracking platform focused on quick daily input and readable progress. The project prioritizes real-time state, clean dashboards, and a lightweight interface that keeps users close to the data.",
-    highlights: [
-      "Realtime data syncing for user progress",
-      "Simple dashboard patterns for habit visibility",
-      "Firebase-backed deployment and data persistence",
-    ],
-    architecture: [
-      "React frontend with Firebase services",
-      "Firestore-style document data model",
-      "Hosted as a fast static web app",
     ],
   },
   {
