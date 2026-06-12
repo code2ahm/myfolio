@@ -1,4 +1,4 @@
-.work-section {
+﻿.work-section {
   position: relative;
   z-index: 1;
   background-color: var(--backgroundColor);
@@ -91,8 +91,12 @@
   border-bottom: 1px solid #252525;
   text-decoration: none;
   color: inherit;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease, transform 0.35s ease;
   position: relative;
+}
+
+.work-item--active {
+  transform: translateY(4px);
 }
 
 .work-item--dimmed {
@@ -175,11 +179,83 @@
   margin: 0;
 }
 
+.work-item-dropdown {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  margin-top: 0;
+}
+
+.work-item--active .work-item-dropdown {
+  grid-template-rows: 1fr;
+  margin-top: 10px;
+}
+
+.work-item-dropdown-inner {
+  overflow: hidden;
+}
+
+.work-item-dropdown-inner > * {
+  transform: translateY(-8px);
+  opacity: 0;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.35s ease;
+}
+
+.work-item--active .work-item-dropdown-inner > * {
+  transform: translateY(0);
+  opacity: 1;
+  transition-delay: 0.12s;
+}
+
+.work-item-desc {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.5;
+  margin: 0 0 10px 0;
+}
+
+.work-item-subtitle {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accentColor);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.work-item-points {
+  margin: 0 0 14px 14px;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.work-item-points li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.4;
+}
+
+.work-item-bullet {
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  margin-top: 7px;
+  background: var(--accentColor);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
 .work-item-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  margin-top: 10px;
+  gap: 10px;
+  margin: 0 0 0 14px;
 }
 
 .work-item-tag {
@@ -198,6 +274,25 @@
 .work-item--active .work-item-tag {
   border-color: rgba(94, 234, 212, 0.25);
   color: #ccc;
+}
+
+.work-item-tag-icon {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+
+.work-item-tag-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.work-item-tag-icon:hover {
+  transform: scale(1.25);
 }
 
 .work-item-arrow {
