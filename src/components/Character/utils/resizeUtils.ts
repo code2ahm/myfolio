@@ -4,6 +4,7 @@ import {
   setCharTimeline,
   setAllTimeline,
   setTechStackTimeline,
+  setWorkTimeline,
 } from "../../utils/GsapScroll";
 
 export default function handleResize(
@@ -28,4 +29,5 @@ export default function handleResize(
   setCharTimeline(character, camera);
   setAllTimeline();
   setTechStackTimeline();
+  setWorkTimeline();
 }
