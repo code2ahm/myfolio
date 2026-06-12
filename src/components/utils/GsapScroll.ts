@@ -207,91 +207,151 @@ export function setAllTimeline() {
 export function setTechStackTimeline() {
   ScrollTrigger.refresh();
 
-  gsap.fromTo(
-    ".techstack-title",
-    { opacity: 0, y: 60 },
-    {
-      opacity: 1,
-      y: 0,
-      duration: 1,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: ".techstack",
-        start: "top 75%",
-        toggleActions: "play pause resume reverse",
-        invalidateOnRefresh: true,
-      },
+  const techTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".techstack",
+      start: "top 80%",
+      end: "bottom 20%",
+      toggleActions: "play none none none",
+      invalidateOnRefresh: true,
     },
-  );
+  });
 
-  gsap.fromTo(
-    ".techstack-group",
-    { opacity: 0, y: 50 },
-    {
-      opacity: 1,
-      y: 0,
-      duration: 0.9,
-      ease: "power3.out",
-      stagger: 0.12,
-      scrollTrigger: {
-        trigger: ".techstack-groups",
-        start: "top 80%",
-        toggleActions: "play pause resume reverse",
-        invalidateOnRefresh: true,
+  techTl
+    .fromTo(
+      ".techstack-title",
+      { opacity: 0, y: 50 },
+      { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
+    )
+    .fromTo(
+      ".techstack-subtitle",
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
+      "-=0.5",
+    )
+    .fromTo(
+      ".techstack-cell",
+      { opacity: 0, y: 25, scale: 0.95 },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.4,
+        ease: "power2.out",
+        stagger: 0.03,
       },
-    },
-  );
+      "-=0.3",
+    )
+    .fromTo(
+      ".techstack-divider",
+      { opacity: 0, scaleX: 0 },
+      { opacity: 1, scaleX: 1, duration: 0.8, ease: "power3.out" },
+      "-=0.2",
+    )
+    .fromTo(
+      ".techstack-flow",
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" },
+      "-=0.4",
+    )
+    .fromTo(
+      ".techstack-flow-step",
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.4,
+        ease: "power2.out",
+        stagger: 0.08,
+      },
+      "-=0.3",
+    );
+}
 
-  gsap.fromTo(
-    ".techstack-tool",
-    { opacity: 0, y: 20 },
-    {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      ease: "power2.out",
-      stagger: 0.04,
-      scrollTrigger: {
-        trigger: ".techstack-groups",
-        start: "top 70%",
-        toggleActions: "play pause resume reverse",
-        invalidateOnRefresh: true,
-      },
-    },
-  );
+export function setWorkTimeline() {
+  if (window.innerWidth <= 1024) return;
 
-  gsap.fromTo(
-    ".techstack-workflow",
-    { opacity: 0, y: 40 },
-    {
-      opacity: 1,
-      y: 0,
-      duration: 0.8,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: ".techstack-workflow",
-        start: "top 85%",
-        toggleActions: "play pause resume reverse",
-        invalidateOnRefresh: true,
-      },
-    },
-  );
+  const cards = gsap.utils.toArray<HTMLElement>("[data-work-card]");
+  if (cards.length === 0) return;
 
-  gsap.fromTo(
-    ".techstack-step",
-    { opacity: 0, y: 30 },
-    {
-      opacity: 1,
-      y: 0,
-      duration: 0.6,
-      ease: "power2.out",
-      stagger: 0.1,
-      scrollTrigger: {
-        trigger: ".techstack-workflow",
-        start: "top 80%",
-        toggleActions: "play pause resume reverse",
-        invalidateOnRefresh: true,
-      },
+  const totalCards = cards.length;
+
+  const workTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".work-section--pinned",
+      start: "top top",
+      end: `+=${window.innerHeight * (totalCards - 1)}`,
+      pin: true,
+      scrub: 0.5,
+      invalidateOnRefresh: true,
     },
-  );
+  });
+
+  const segLen = 1 / totalCards;
+
+  cards.forEach((card, i) => {
+    const start = i * segLen;
+    const liftInEnd = start + segLen * 0.6;
+    const holdEnd = start + segLen * 0.8;
+    const liftOutEnd = start + segLen;
+
+    if (i === 0) {
+      workTl.fromTo(
+        card,
+        {
+          opacity: 0,
+          rotateX: 65,
+          y: 120,
+          scale: 0.85,
+          transformOrigin: "bottom center",
+          visibility: "visible",
+        },
+        {
+          opacity: 1,
+          rotateX: 0,
+          y: 0,
+          scale: 1,
+          duration: liftInEnd - start,
+          ease: "power3.out",
+        },
+        start,
+      );
+    } else {
+      workTl.fromTo(
+        card,
+        {
+          opacity: 0,
+          rotateX: 65,
+          y: 120,
+          scale: 0.85,
+          transformOrigin: "bottom center",
+          visibility: "visible",
+        },
+        {
+          opacity: 1,
+          rotateX: 0,
+          y: 0,
+          scale: 1,
+          duration: liftInEnd - start,
+          ease: "power3.out",
+        },
+        start,
+      );
+    }
+
+    if (i < totalCards - 1) {
+      workTl.to(
+        card,
+        {
+          opacity: 0,
+          rotateX: -40,
+          y: -80,
+          scale: 0.9,
+          duration: liftOutEnd - holdEnd,
+          ease: "power2.in",
+        },
+        holdEnd,
+      );
+    }
+  });
 }
