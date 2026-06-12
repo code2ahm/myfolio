@@ -4,6 +4,7 @@ import "./App.css";
 const CharacterModel = lazy(() => import("./components/Character"));
 const MainContainer = lazy(() => import("./components/MainContainer"));
 const ProjectsPage = lazy(() => import("./components/ProjectsPage"));
+const ResumePage = lazy(() => import("./components/ResumePage"));
 import { LoadingProvider } from "./context/LoadingProvider";
 
 const App = () => {
@@ -24,6 +25,14 @@ const App = () => {
     return (
       <Suspense>
         <ProjectsPage />
+      </Suspense>
+    );
+  }
+
+  if (pathname === "/resume") {
+    return (
+      <Suspense>
+        <ResumePage />
       </Suspense>
     );
   }
