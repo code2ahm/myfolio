@@ -1,45 +1,123 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./styles/Loading.css";
 import { useLoading } from "../context/LoadingProvider";
 
 import Marquee from "react-fast-marquee";
 
+type Phase = "loading" | "clearing" | "typing" | "welcomeErasing" | "expanding";
+
 const Loading = ({ percent }: { percent: number }) => {
   const { setIsLoading } = useLoading();
-  const [loaded, setLoaded] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [phase, setPhase] = useState<Phase>("loading");
+  const [displayedText, setDisplayedText] = useState("");
   const [clicked, setClicked] = useState(false);
+  const intervalRef = useRef<number | null>(null);
+
+  const clearAll = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
 
   useEffect(() => {
-    if (percent < 100) return;
+    if (percent < 100 || phase !== "loading") return;
 
-    let completeTimeout: number | undefined;
-    const loadedTimeout = setTimeout(() => {
-      setLoaded(true);
-      completeTimeout = setTimeout(() => {
-        setIsLoaded(true);
-      }, 1000);
-    }, 600);
+    const timeout = setTimeout(() => {
+      setPhase("clearing");
+    }, 400);
 
-    return () => {
-      clearTimeout(loadedTimeout);
-      clearTimeout(completeTimeout);
-    };
-  }, [percent]);
+    return () => clearTimeout(timeout);
+  }, [percent, phase]);
 
+  // Safety: if stuck at 95% for more than 3s, force to clearing
   useEffect(() => {
-    import("./utils/initialFX").then((module) => {
-      if (isLoaded) {
-        setClicked(true);
-        setTimeout(() => {
-          if (module.initialFX) {
-            module.initialFX();
-          }
-          setIsLoading(false);
-        }, 900);
+    if (phase !== "loading") return;
+
+    const timeout = setTimeout(() => {
+      setPhase("clearing");
+    }, 3000);
+
+    return () => clearTimeout(timeout);
+  }, [phase]);
+
+  // Phase 1: Erase "Loading X%"
+  useEffect(() => {
+    if (phase !== "clearing") return;
+
+    let text = `Loading ${percent}%`;
+    setDisplayedText(text);
+
+    intervalRef.current = window.setInterval(() => {
+      if (text.length > 0) {
+        text = text.slice(0, -1);
+        setDisplayedText(text);
+      } else {
+        clearAll();
+        setPhase("typing");
       }
+    }, 35);
+
+    return clearAll;
+  }, [phase]);
+
+  // Phase 2: Type "Welcome"
+  useEffect(() => {
+    if (phase !== "typing") return;
+
+    const target = "Welcome";
+    let index = 0;
+    setDisplayedText("");
+
+    intervalRef.current = window.setInterval(() => {
+      if (index < target.length) {
+        index++;
+        setDisplayedText(target.slice(0, index));
+      } else {
+        clearAll();
+        setTimeout(() => {
+          setPhase("welcomeErasing");
+        }, 500);
+      }
+    }, 65);
+
+    return clearAll;
+  }, [phase]);
+
+  // Phase 3: Erase "Welcome"
+  useEffect(() => {
+    if (phase !== "welcomeErasing") return;
+
+    let text = "Welcome";
+    setDisplayedText(text);
+
+    intervalRef.current = window.setInterval(() => {
+      if (text.length > 0) {
+        text = text.slice(0, -1);
+        setDisplayedText(text);
+      } else {
+        clearAll();
+        setClicked(true);
+        setPhase("expanding");
+      }
+    }, 45);
+
+    return clearAll;
+  }, [phase]);
+
+  // Phase 4: Expand and exit
+  useEffect(() => {
+    if (phase !== "expanding") return;
+
+    import("./utils/initialFX").then((module) => {
+      setTimeout(() => {
+        if (module.initialFX) {
+          module.initialFX();
+        }
+        setIsLoading(false);
+      }, 1000);
     });
-  }, [isLoaded]);
+  }, [phase, setIsLoading]);
 
   function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
     const { currentTarget: target } = e;
@@ -50,11 +128,20 @@ const Loading = ({ percent }: { percent: number }) => {
     target.style.setProperty("--mouse-y", `${y}px`);
   }
 
+  const showCursor = phase === "clearing" || phase === "typing" || phase === "welcomeErasing";
+
+  const loadingText =
+    phase === "loading"
+      ? `Loading ${percent}%`
+      : phase === "expanding"
+        ? ""
+        : displayedText;
+
   return (
     <>
       <div className="loading-header">
         <a href="/#" className="loader-title" data-cursor="disable">
-          AY
+          <img src="/images/ahm.png" className="loader-logo" />
         </a>
         <div className={`loaderGame ${clicked && "loader-out"}`}>
           <div className="loaderGame-container">
@@ -79,17 +166,16 @@ const Loading = ({ percent }: { percent: number }) => {
           onMouseMove={(e) => handleMouseMove(e)}
         >
           <div className="loading-hover"></div>
-          <div className={`loading-button ${loaded && "loading-complete"}`}>
+          <div
+            className={`loading-button ${phase === "expanding" ? "loading-complete" : ""}`}
+          >
             <div className="loading-container">
               <div className="loading-content">
                 <div className="loading-content-in">
-                  Loading <span>{percent}%</span>
+                  {loadingText}
+                  {showCursor && <span className="loading-cursor-block" />}
                 </div>
               </div>
-              <div className="loading-box"></div>
-            </div>
-            <div className="loading-content2">
-              <span>Welcome</span>
             </div>
           </div>
         </div>

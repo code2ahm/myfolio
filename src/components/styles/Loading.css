@@ -10,12 +10,12 @@
 }
 
 .loading-button {
-  padding: 20px 50px;
+  padding: 36px 120px;
   border-radius: 100px;
   background-color: #000;
   overflow: hidden;
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 15px;
+  font-weight: 800;
   position: relative;
   z-index: 9;
 }
@@ -45,7 +45,7 @@
 }
 
 .loading-wrap {
-  --Lsize: 145px;
+  --Lsize: 280px;
   padding: 6px;
   position: relative;
   min-width: 0px;
@@ -102,15 +102,20 @@
   position: relative;
   background-color: #000;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
   transition: 0.6s;
   text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .loading-content-in {
   position: relative;
   width: var(--Lsize);
-  overflow: hidden;
+  overflow: visible;
+  white-space: nowrap;
+  text-align: center;
 }
 
 .loading-content2 {
@@ -143,14 +148,31 @@
 }
 
 .loading-box {
-  position: absolute;
-  right: 0px;
-  top: 50%;
-  transform: translate(100%, -50%);
-  width: 15px;
-  height: 25px;
-  background-color: white;
-  animation: blink 1s linear infinite;
+  display: none;
+}
+
+.loading-box-hidden {
+  opacity: 0;
+  animation: none;
+}
+
+.loading-cursor-block {
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  background: #fff;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 0.7s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+.loading-cursor-inline {
+  display: none;
 }
 
 .loading-icon {
@@ -185,12 +207,11 @@
   position: absolute;
   width: 100%;
   max-width: var(--Lsize);
-  /* height: 45px; */
   top: 50%;
   transition: 1s;
-  left: 50px;
+  left: 50%;
   z-index: 9;
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
 }
 
 .loading-complete .loading-container {
@@ -216,36 +237,14 @@
   font-weight: 700;
   font-size: 14px;
   letter-spacing: 0.2px;
+  display: flex;
+  align-items: center;
 }
 
-@keyframes blink {
-  0% {
-    opacity: 0;
-  }
-
-  25% {
-    opacity: 1;
-  }
-
-  75% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
-.loading-complete .loading-box {
-  animation: blinkDone 0.3s forwards;
-  animation-delay: 1s;
-  opacity: 1;
-}
-
-@keyframes blinkDone {
-  to {
-    opacity: 0;
-  }
+.loader-logo {
+  height: 28px;
+  width: auto;
+  display: block;
 }
 
 .loaderGame-container {
@@ -374,16 +373,16 @@
 
 @media only screen and (min-width: 1400px) {
   .loading-wrap {
-    --Lsize: 210px;
+    --Lsize: 340px;
   }
 
   .loading-button {
-    padding: 30px 70px;
-    font-size: 25px;
+    padding: 42px 150px;
+    font-size: 18px;
   }
 
   .loading-container {
-    left: 70px;
+    left: 50%;
   }
 
   .loading-marquee {

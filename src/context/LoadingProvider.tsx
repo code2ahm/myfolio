@@ -26,11 +26,22 @@ export const LoadingProvider = ({ children }: PropsWithChildren) => {
   };
 
   useEffect(() => {
+    if (isLoading) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isLoading]);
+
+  useEffect(() => {
     if (loading < 100) return;
 
     const timeout = setTimeout(() => {
       setIsLoading(false);
-    }, 500);
+    }, 5000);
 
     return () => clearTimeout(timeout);
   }, [loading]);
@@ -38,8 +49,7 @@ export const LoadingProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoading(100);
-      setIsLoading(false);
-    }, 6500);
+    }, 5500);
 
     return () => clearTimeout(timeout);
   }, []);
