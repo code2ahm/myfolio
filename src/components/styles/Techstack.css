@@ -58,30 +58,11 @@
   overflow: hidden;
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeInUp 0.6s ease forwards, techFloat 6s ease-in-out infinite;
+  animation: fadeInUp 0.6s ease forwards;
 }
 
-.techstack-cell:nth-child(1) { animation-delay: 0s, 0s; }
-.techstack-cell:nth-child(2) { animation-delay: 0s, 0.05s; }
-.techstack-cell:nth-child(3) { animation-delay: 0s, 0.1s; }
-.techstack-cell:nth-child(4) { animation-delay: 0s, 0.15s; }
-.techstack-cell:nth-child(5) { animation-delay: 0s, 0.2s; }
-.techstack-cell:nth-child(6) { animation-delay: 0s, 0.25s; }
-.techstack-cell:nth-child(7) { animation-delay: 0s, 0.3s; }
-.techstack-cell:nth-child(8) { animation-delay: 0s, 0.35s; }
-.techstack-cell:nth-child(9) { animation-delay: 0s, 0.4s; }
-.techstack-cell:nth-child(10) { animation-delay: 0s, 0.1s; }
-.techstack-cell:nth-child(11) { animation-delay: 0s, 0.15s; }
-.techstack-cell:nth-child(12) { animation-delay: 0s, 0.2s; }
-.techstack-cell:nth-child(13) { animation-delay: 0s, 0.25s; }
-.techstack-cell:nth-child(14) { animation-delay: 0s, 0.3s; }
-.techstack-cell:nth-child(15) { animation-delay: 0s, 0.35s; }
-.techstack-cell:nth-child(16) { animation-delay: 0s, 0.4s; }
-.techstack-cell:nth-child(17) { animation-delay: 0s, 0.45s; }
-.techstack-cell:nth-child(18) { animation-delay: 0s, 0.5s; }
-
 @keyframes fadeInUp {
-  to { opacity: 1; }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .techstack-cell::before {
@@ -91,67 +72,23 @@
   border-radius: 12px;
   padding: 1px;
   background: conic-gradient(
-    from var(--angle, 0deg),
+    from 0deg,
     transparent 0%,
-    rgba(94, 234, 212, 0.6) 10%,
+    rgba(94, 234, 212, 0.4) 10%,
     transparent 20%
   );
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  opacity: 0.35;
-  animation: cometBorder 4s linear infinite;
+  opacity: 0;
   pointer-events: none;
   z-index: 1;
+  transition: opacity 0.4s ease;
 }
 
-.techstack-cell:nth-child(2n)::before {
-  animation-delay: -1s;
-  animation-duration: 3.5s;
-}
-
-.techstack-cell:nth-child(3n)::before {
-  animation-delay: -2s;
-  animation-duration: 5s;
-}
-
-.techstack-cell:nth-child(5n)::before {
-  animation-delay: -0.5s;
-  animation-duration: 3s;
-}
-
-@keyframes cometBorder {
-  0% { --angle: 0deg; }
-  100% { --angle: 360deg; }
-}
-
-@property --angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-
-.techstack-cell:nth-child(2n) {
-  animation-delay: -1.5s;
-  animation-duration: 5s;
-}
-
-.techstack-cell:nth-child(3n) {
-  animation-delay: -3s;
-  animation-duration: 7s;
-}
-
-.techstack-cell:nth-child(5n) {
-  animation-delay: -0.8s;
-  animation-duration: 5.5s;
-}
-
-@keyframes techFloat {
-  0%, 100% { transform: translateY(0) rotateX(0deg); }
-  25% { transform: translateY(-10px) rotateX(2deg); }
-  50% { transform: translateY(0) rotateX(0deg); }
-  75% { transform: translateY(-5px) rotateX(1deg); }
+.techstack-cell:hover::before {
+  opacity: 0.8;
 }
 
 .techstack-cell::after {
@@ -173,12 +110,12 @@
 }
 
 .techstack-cell:hover {
-  border-color: rgba(94, 234, 212, 0.3);
+  border-color: rgba(94, 234, 212, 0.5);
   background: rgba(94, 234, 212, 0.05);
   transform: translateY(-10px) scale(1.05) rotateX(2deg);
   box-shadow:
-    0 16px 48px -12px rgba(94, 234, 212, 0.3),
-    0 0 40px rgba(94, 234, 212, 0.1);
+    0 16px 48px -12px rgba(94, 234, 212, 0.4),
+    0 0 40px rgba(94, 234, 212, 0.15);
 }
 
 .techstack-cell:hover::before {
@@ -191,8 +128,10 @@
 }
 
 .techstack-cell--dimmed {
-  opacity: 0.4;
+  opacity: 0.5;
   transform: scale(0.97);
+  filter: grayscale(1) blur(1.5px);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .techstack-cell-icon {
@@ -202,20 +141,6 @@
   align-items: center;
   justify-content: center;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  animation: iconPulse 3s ease-in-out infinite;
-}
-
-.techstack-cell:nth-child(2n) .techstack-cell-icon {
-  animation-delay: -1s;
-}
-
-.techstack-cell:nth-child(3n) .techstack-cell-icon {
-  animation-delay: -2s;
-}
-
-@keyframes iconPulse {
-  0%, 100% { filter: drop-shadow(0 0 0 transparent); }
-  50% { filter: drop-shadow(0 0 6px rgba(94, 234, 212, 0.15)); }
 }
 
 .techstack-cell-icon svg {
