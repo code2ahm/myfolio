@@ -1,0 +1,4 @@
+Sitemap: https://www.devahm.xyz/sitemap.xml
+
+User-agent: *
+Allow: /
