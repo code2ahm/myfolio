@@ -86,6 +86,9 @@
 }
 .what-content-in {
   opacity: 0;
+}
+
+.what-visible .what-content-in {
   animation: whatFlicker 0.5s 1 forwards;
   animation-delay: 1s;
 }
@@ -114,6 +117,12 @@
   position: absolute;
   border: 4px solid #fff;
   opacity: 0;
+}
+
+.what-visible .what-content::before,
+.what-visible .what-corner::before,
+.what-visible .what-content::after,
+.what-visible .what-corner::after {
   animation: whatCorners 0.2s 1 forwards;
   animation-delay: 0.5s;
 }
@@ -181,6 +190,9 @@
   max-width: 0%;
   overflow: hidden;
   opacity: 0.8;
+}
+
+.what-visible .what-border1 {
   animation: whatBorders 1.2s 1 forwards;
 }
 .what-border1 svg {
@@ -200,6 +212,9 @@
   overflow: hidden;
   transition: 0.5s;
   opacity: 0.8;
+}
+
+.what-visible .what-border2 {
   animation: whatBorders 1.2s 1 forwards;
 }
 .what-border2 svg {

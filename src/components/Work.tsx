@@ -216,33 +216,40 @@ const Work = () => {
 
                 <div className="work-item-dropdown">
                   <div className="work-item-dropdown-inner">
-                    <p className="work-item-desc">{project.description}</p>
-                    <span className="work-item-subtitle">Key points</span>
-                    <ul className="work-item-points">
-                      {project.points.map((point) => (
-                        <li key={point}>
-                          <span className="work-item-bullet" />
-                          {point}
-                        </li>
-                      ))}
-                    </ul>
-                    <span className="work-item-subtitle">Tech used</span>
-                    <div className="work-item-tags">
-                      {project.tools.map((tool) => {
-                        const svg = iconMap[tool];
-                        return svg ? (
-                          <span
-                            key={tool}
-                            className="work-item-tag-icon"
-                            title={tool}
-                            dangerouslySetInnerHTML={{ __html: svg }}
-                          />
-                        ) : (
-                          <span className="work-item-tag" key={tool}>
-                            {tool}
-                          </span>
-                        );
-                      })}
+                    <div className="work-item-dropdown-flex">
+                      <div className="work-item-dropdown-image">
+                        <img src={project.image} alt={project.title} loading="lazy" />
+                      </div>
+                      <div className="work-item-dropdown-content">
+                        <p className="work-item-desc">{project.description}</p>
+                        <span className="work-item-subtitle">Key points</span>
+                        <ul className="work-item-points">
+                          {project.points.map((point) => (
+                            <li key={point}>
+                              <span className="work-item-bullet" />
+                              {point}
+                            </li>
+                          ))}
+                        </ul>
+                        <span className="work-item-subtitle">Tech used</span>
+                        <div className="work-item-tags">
+                          {project.tools.map((tool) => {
+                            const svg = iconMap[tool];
+                            return svg ? (
+                              <span
+                                key={tool}
+                                className="work-item-tag-icon"
+                                title={tool}
+                                dangerouslySetInnerHTML={{ __html: svg }}
+                              />
+                            ) : (
+                              <span className="work-item-tag" key={tool}>
+                                {tool}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

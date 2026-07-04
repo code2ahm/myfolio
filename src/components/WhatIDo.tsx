@@ -3,7 +3,9 @@ import "./styles/WhatIDo.css";
 
 const WhatIDo = () => {
   const [isTouchView, setIsTouchView] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<(HTMLDivElement | null)[]>([]);
 
   const setRef = (el: HTMLDivElement | null, index: number) => {
@@ -15,7 +17,6 @@ const WhatIDo = () => {
 
     const updateTouchView = () => {
       setIsTouchView(media.matches);
-      setActiveIndex(media.matches ? 0 : null);
     };
 
     updateTouchView();
@@ -24,6 +25,22 @@ const WhatIDo = () => {
     return () => {
       media.removeEventListener("change", updateTouchView);
     };
+  }, []);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   const toggleActive = (index: number) => {
@@ -50,7 +67,7 @@ const WhatIDo = () => {
   };
 
   return (
-    <div className="whatIDO">
+    <div className={`whatIDO${isVisible ? " what-visible" : ""}`} ref={sectionRef}>
       <div className="what-box">
         <h2 className="title">
           W<span className="hat-h2">HAT</span>
