@@ -10,6 +10,9 @@ export let smoother: ScrollSmoother;
 
 const Navbar = () => {
   useEffect(() => {
+    const path = window.location.pathname;
+    if (path === "/projects" || path === "/resume") return;
+
     smoother = ScrollSmoother.create({
       wrapper: "#smooth-wrapper",
       content: "#smooth-content",
@@ -47,7 +50,10 @@ const Navbar = () => {
     return () => {
       cleanupLinks.forEach((cleanup) => cleanup());
       window.removeEventListener("resize", onResize);
-      smoother?.kill();
+      if (smoother) {
+        smoother.kill();
+        smoother = null as unknown as ScrollSmoother;
+      }
     };
   }, []);
   return (

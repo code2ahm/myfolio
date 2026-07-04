@@ -233,7 +233,7 @@ const ProjectsPage = () => {
           }
         });
       },
-      { threshold: 0.08, rootMargin: "0px 0px -4% 0px" },
+      { threshold: 0.3, rootMargin: "0px 0px -10% 0px" },
     );
 
     revealItems.forEach((item, index) => {
@@ -295,6 +295,19 @@ const ProjectsPage = () => {
                 data-cursor="disable"
               >
                 Back to work
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M7 17L17 7M17 7H7M17 7V17"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </a>
               <p className="projects-hero-kicker projects-reveal">
                 Source-ready builds
@@ -320,6 +333,14 @@ const ProjectsPage = () => {
                   className="projects-card projects-reveal"
                   key={project.name}
                 >
+                  <div className="projects-card-border">
+                    <svg viewBox="0 0 200 200" preserveAspectRatio="none">
+                      <line x1="0" y1="0" x2="0" y2="200" stroke="white" strokeWidth="3" strokeDasharray="12,8" vector-effect="non-scaling-stroke" />
+                      <line x1="200" y1="0" x2="200" y2="200" stroke="white" strokeWidth="3" strokeDasharray="12,8" vector-effect="non-scaling-stroke" />
+                      <line x1="0" y1="0" x2="200" y2="0" stroke="white" strokeWidth="3" strokeDasharray="12,8" vector-effect="non-scaling-stroke" />
+                      <line x1="0" y1="200" x2="200" y2="200" stroke="white" strokeWidth="3" strokeDasharray="12,8" vector-effect="non-scaling-stroke" />
+                    </svg>
+                  </div>
                   <div className="projects-card-media">
                     <img src={project.image} alt={`${project.name} preview`} />
                     <span>{String(index + 1).padStart(2, "0")}</span>
@@ -348,26 +369,30 @@ const ProjectsPage = () => {
                         </a>
                       </div>
                     </div>
-                    <p className="projects-card-desc">{project.description}</p>
-                    <ul>
-                      {project.points.map((point) => (
-                        <li key={point}>{point}</li>
-                      ))}
-                    </ul>
-                    <div className="projects-card-tags">
-                      {project.tags.map((tag) => (
-                        <span key={tag}>{tag}</span>
-                      ))}
+                    <div className="projects-card-dropdown">
+                      <div className="projects-card-dropdown-inner">
+                        <p className="projects-card-desc">{project.description}</p>
+                        <ul>
+                          {project.points.map((point) => (
+                            <li key={point}>{point}</li>
+                          ))}
+                        </ul>
+                        <div className="projects-card-tags">
+                          {project.tags.map((tag) => (
+                            <span key={tag}>{tag}</span>
+                          ))}
+                        </div>
+                        <button
+                          className="projects-details-button"
+                          type="button"
+                          onClick={() => setActiveProject(project)}
+                          data-cursor="disable"
+                        >
+                          <span>Project details</span>
+                          <MdReadMore />
+                        </button>
+                      </div>
                     </div>
-                    <button
-                      className="projects-details-button"
-                      type="button"
-                      onClick={() => setActiveProject(project)}
-                      data-cursor="disable"
-                    >
-                      <span>Project details</span>
-                      <MdReadMore />
-                    </button>
                   </div>
                 </article>
               ))}
@@ -379,6 +404,19 @@ const ProjectsPage = () => {
               <div className="projects-footer-actions">
                 <a href="/#work" onClick={goBackToWork} data-cursor="disable">
                   Back to work
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7 17L17 7M17 7H7M17 7V17"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
                 </a>
                 <a href="/#contact" data-cursor="disable">
                   Start something
@@ -420,62 +458,64 @@ const ProjectsPage = () => {
               />
             </div>
 
-            <div
-              className="projects-modal-content"
-              ref={modalContentRef}
-              onScroll={handleModalScroll}
-            >
-              <p className="projects-modal-kicker">{activeProject.role}</p>
-              <h2 id="projects-modal-title">{activeProject.name}</h2>
-              <p className="projects-modal-desc">{activeProject.details}</p>
+            <div className="projects-modal-content-col">
+              <div
+                className="projects-modal-content"
+                ref={modalContentRef}
+                onScroll={handleModalScroll}
+              >
+                <p className="projects-modal-kicker">{activeProject.role}</p>
+                <h2 id="projects-modal-title">{activeProject.name}</h2>
+                <p className="projects-modal-desc">{activeProject.details}</p>
 
-              <div className="projects-modal-section">
-                <h3>Tech stack used</h3>
-                <div className="projects-modal-stack">
-                  {activeProject.stack.map((tool) => (
-                    <span key={tool}>{tool}</span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="projects-modal-columns">
                 <div className="projects-modal-section">
-                  <h3>Highlights</h3>
-                  <ul>
-                    {activeProject.highlights.map((item) => (
-                      <li key={item}>{item}</li>
+                  <h3>Tech stack used</h3>
+                  <div className="projects-modal-stack">
+                    {activeProject.stack.map((tool) => (
+                      <span key={tool}>{tool}</span>
                     ))}
-                  </ul>
+                  </div>
                 </div>
-                <div className="projects-modal-section">
-                  <h3>Build details</h3>
-                  <ul>
-                    {activeProject.architecture.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
 
-              <div className="projects-modal-actions">
-                <a
-                  href={activeProject.live}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-cursor="disable"
-                >
-                  <MdOpenInNew />
-                  Visit live
-                </a>
-                <a
-                  href={activeProject.source}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-cursor="disable"
-                >
-                  <FaGithub />
-                  View source
-                </a>
+                <div className="projects-modal-columns">
+                  <div className="projects-modal-section">
+                    <h3>Highlights</h3>
+                    <ul>
+                      {activeProject.highlights.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="projects-modal-section">
+                    <h3>Build details</h3>
+                    <ul>
+                      {activeProject.architecture.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="projects-modal-actions">
+                  <a
+                    href={activeProject.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-cursor="disable"
+                  >
+                    <MdOpenInNew />
+                    Visit live
+                  </a>
+                  <a
+                    href={activeProject.source}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-cursor="disable"
+                  >
+                    <FaGithub />
+                    View source
+                  </a>
+                </div>
               </div>
 
               <div

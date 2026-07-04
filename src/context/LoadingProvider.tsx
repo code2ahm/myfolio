@@ -41,15 +41,16 @@ export const LoadingProvider = ({ children }: PropsWithChildren) => {
 
     const timeout = setTimeout(() => {
       setIsLoading(false);
-    }, 5000);
+    }, 4000);
 
     return () => clearTimeout(timeout);
   }, [loading]);
 
+  // Safety timeout: force loading complete after 12s
   useEffect(() => {
     const timeout = setTimeout(() => {
       setLoading(100);
-    }, 5500);
+    }, 12000);
 
     return () => clearTimeout(timeout);
   }, []);

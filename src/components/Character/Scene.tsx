@@ -11,7 +11,6 @@ import {
   handleTouchMove,
 } from "./utils/mouseUtils";
 import setAnimations from "./utils/animationUtils";
-import { setProgress } from "../Loading";
 
 const Scene = () => {
   const canvasDiv = useRef<HTMLDivElement | null>(null);
@@ -57,7 +56,6 @@ const Scene = () => {
       const clock = new THREE.Clock();
 
       const light = setLighting(scene);
-      let progress = setProgress((value) => setLoading(value));
       const { loadCharacter } = setCharacter(renderer, scene, camera);
 
       const onResize = () => {
@@ -82,14 +80,15 @@ const Scene = () => {
           if (window.innerWidth <= 1024) {
             animations.startBlink();
           }
-          progress.loaded().then(() => {
-            setTimeout(() => {
-              light.turnOnLights();
-              animations.startIntro();
-            }, 2500);
-          });
+          setLoading(100);
+          setTimeout(() => {
+            light.turnOnLights();
+            animations.startIntro();
+          }, 2500);
           window.addEventListener("resize", onResize);
         }
+      }).catch(() => {
+        setLoading(100);
       });
 
       let mouse = { x: 0, y: 0 },
@@ -162,7 +161,6 @@ const Scene = () => {
       return () => {
         disposed = true;
         cleanupHover?.();
-        progress.stop();
         cancelAnimationFrame(frameId);
         clearTimeout(debounce);
         scene.clear();
